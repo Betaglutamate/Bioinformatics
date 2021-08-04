@@ -55,8 +55,10 @@ k = 5
 L = 50
 t = 4
 
+find_clumps(s_text, 5, 50, 4)
 
-with open("..\Data\E_coli.txt") as f:
+
+with open("../Data/E_coli.txt") as f:
     s_try = f.read()
 
 
@@ -69,24 +71,26 @@ find_clumps(s_try, 9, 500, 3)
 ## more efficient
 
 def find_clump_new(text, kmer, L, t):
-    patterns = []
+    windows = []
+    patterns = {}
     list_all_kmer = frequency_table(text, kmer)
     list_all_kmer = [k for k in list_all_kmer.keys()]
-    
+
     for i in range(0, len(text)-L, L):
         window = text[i : i+L]
-        print(window)
-        print(list_all_kmer)
         for k in list_all_kmer:
-            num_times = len(re.findall(f'(?={k})', window))
-            if num_times >= t:
-                patterns.append(k)
+            if k in window:
+                num_times = len(re.findall(f'(?={k})', window))
+                if num_times >= t:
+                    if not patterns.get(k):
+                        patterns[k] = num_times
+            
+            if patterns:
+                windows.append(patterns)
+                        
     
-    return patterns
+    return windows
 
+a = find_clump_new(s_try, 9, 500, 3)
 
-find_clump_new(s_text, k, L, 3)
-
-
-
-find_clump_new(s_try, 9, 500, 3)
+s_small = s_try[1:100000]

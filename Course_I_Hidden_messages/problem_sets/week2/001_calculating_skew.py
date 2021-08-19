@@ -53,8 +53,8 @@ def find_skew_list(text):
 
     return skew_list
 
-# %time skew_array = find_skew(s_try[1:100000])
-# %time skew_array = find_skew_list(s_try)
+skew_array = find_skew_list(s_try[1:100000])
+skew_array = find_skew_list(s_try)
 
 pd.DataFrame(skew_array).plot()
 pd.DataFrame(skew_array)
